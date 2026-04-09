@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自由落體速度測試系統 — 使用者操作說明書</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#0f2040;--blue:#1e3a5f;--accent:#f59e0b;--green:#166534;--gbg:#dcfce7;--red:#991b1b;--rbg:#fee2e2;--ybg:#fef3c7;--ytext:#92400e;--border:#e2e8f0;--text:#1e293b;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Noto Sans TC',sans-serif;background:#f0f4f8;color:var(--text);line-height:1.85;font-size:15px;}
+  .cover{background:linear-gradient(135deg,#0f2040,#1e3a5f);color:white;padding:60px 50px 50px;position:relative;overflow:hidden;}
+  .cover::after{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.12),transparent 70%);}
+  .cover-badge{display:inline-block;border:1.5px solid var(--accent);color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.18em;padding:5px 14px;border-radius:100px;margin-bottom:22px;text-transform:uppercase;}
+  .cover h1{font-family:'Noto Serif TC',serif;font-size:clamp(26px,4.5vw,46px);font-weight:900;line-height:1.25;margin-bottom:14px;position:relative;z-index:1;}
+  .cover h1 em{color:var(--accent);font-style:normal;}
+  .cover-sub{color:rgba(255,255,255,.65);font-size:16px;margin-bottom:30px;position:relative;z-index:1;}
+  .cover-pills{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
+  .pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:5px 13px;border-radius:100px;font-size:13px;color:rgba(255,255,255,.8);}
+  .divider{height:5px;background:linear-gradient(90deg,var(--accent),#f97316,#3b82f6);}
+  .toc{background:var(--navy);padding:40px 0;}
+  .toc-title{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:700;color:var(--accent);margin-bottom:18px;}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+  .toc-a{display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;text-decoration:none;color:rgba(255,255,255,.82);font-size:14px;transition:.2s;}
+  .toc-a:hover{background:rgba(245,158,11,.15);border-color:var(--accent);color:var(--accent);}
+  .toc-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);font-weight:700;min-width:24px;}
+  .container{max-width:960px;margin:0 auto;padding:0 24px;}
+  .wrap{background:white;}
+  .sec{padding:56px 0;border-bottom:1px solid var(--border);}
+  .sec:last-child{border-bottom:none;}
+  .sec-hd{display:flex;align-items:center;gap:14px;margin-bottom:28px;}
+  .sec-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--accent);background:var(--navy);padding:5px 11px;border-radius:6px;}
+  .sec-ttl{font-family:'Noto Serif TC',serif;font-size:24px;font-weight:900;color:var(--navy);}
+  h3{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:700;color:var(--blue);margin:28px 0 12px;padding-left:11px;border-left:4px solid var(--accent);}
+  p{margin-bottom:13px;}
+  .steps{margin:20px 0;}
+  .step{display:flex;gap:16px;margin-bottom:18px;align-items:flex-start;}
+  .sn{width:36px;height:36px;min-width:36px;background:var(--navy);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;}
+  .sc h4{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .sc p{margin:0;font-size:14px;}
+  .box{display:flex;gap:13px;padding:16px 20px;border-radius:10px;margin:16px 0;font-size:14px;line-height:1.75;}
+  .box-ico{font-size:20px;min-width:24px;}
+  .box.info{background:#eff6ff;border-left:4px solid #3b82f6;}
+  .box.warn{background:var(--ybg);border-left:4px solid var(--accent);}
+  .box.danger{background:var(--rbg);border-left:4px solid #ef4444;}
+  .box.good{background:var(--gbg);border-left:4px solid #22c55e;}
+  .box strong{color:var(--navy);}
+  .tbl{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  .tbl th{background:var(--navy);color:white;padding:11px 15px;text-align:left;}
+  .tbl td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top;}
+  .tbl tr:nth-child(even) td{background:#f8fafc;}
+  kbd{font-family:'JetBrains Mono',monospace;background:var(--navy);color:white;padding:3px 9px;border-radius:5px;font-size:13px;border-bottom:3px solid var(--accent);display:inline-block;margin:2px;}
+  .badge{display:inline-block;padding:8px 16px;border-radius:8px;font-size:15px;font-weight:700;text-align:center;}
+  .bp{background:var(--gbg);color:var(--green);}
+  .bf{background:var(--rbg);color:var(--red);}
+  .bw{background:var(--ybg);color:var(--ytext);}
+  .bn{background:#e5e7eb;color:#6b7280;}
+  .diagram{background:white;border:1px solid var(--border);border-radius:14px;padding:32px;margin:24px 0;overflow:hidden;position:relative;}
+  .diagram::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),#3b82f6);}
+  .dsvg{width:100%;max-width:680px;display:block;margin:0 auto;}
+  .fw{background:#eef2ff;border:2px solid #c7d2fe;border-radius:14px;padding:26px 30px;margin:22px 0;}
+  .ft{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;color:#3730a3;margin-bottom:14px;}
+  .fm{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:#3730a3;text-align:center;margin:10px 0;line-height:1.5;}
+  .fv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin-top:14px;font-size:13px;}
+  .fvk{font-family:'JetBrains Mono',monospace;font-weight:700;color:#3730a3;}
+  .fvd{color:#4b5563;}
+  .fe{background:#dbeafe;border-radius:8px;padding:14px 18px;margin-top:16px;font-size:13px;color:#1e3a5f;line-height:1.8;}
+  .fe strong{font-family:'JetBrains Mono',monospace;}
+  .mock{background:#f1f5f9;border-radius:12px;padding:14px;margin:22px 0;border:1px solid var(--border);}
+  .mt{background:var(--navy);color:white;border-radius:8px;padding:12px 16px;text-align:center;font-size:16px;font-weight:700;margin-bottom:10px;}
+  .mh{background:var(--navy);color:var(--accent);border-radius:6px;padding:8px 14px;font-size:12px;font-weight:700;text-align:center;margin-bottom:10px;}
+  .mr{display:flex;gap:10px;margin-bottom:10px;}
+  .mg{background:white;border:1.5px solid #cbd5e1;border-radius:8px;padding:14px;flex:1;position:relative;}
+  .mgt{position:absolute;top:-11px;left:12px;background:white;padding:0 7px;font-size:11px;font-weight:700;color:#1e40af;border-radius:4px;}
+  .ml{font-size:11px;font-weight:700;color:#374151;margin-bottom:3px;}
+  .mi{border:2px solid #94a3b8;border-radius:4px;padding:7px 10px;font-size:15px;font-weight:700;width:100%;font-family:'JetBrains Mono',monospace;background:white;}
+  .mi.f{border-color:#f59e0b;background:#fffbeb;}
+  .mb{font-size:32px;font-weight:900;color:#1d4ed8;font-family:'JetBrains Mono',monospace;}
+  .log{background:#f1f5f9;border-radius:6px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#374151;line-height:1.7;max-height:80px;overflow:hidden;}
+  .bn2{display:inline-block;padding:9px 16px;border-radius:6px;font-size:12px;font-weight:700;}
+  .bc{background:#16a34a;color:white;margin-right:6px;}
+  .bd{background:#dc2626;color:white;opacity:.45;}
+  .cards{display:flex;gap:16px;margin:20px 0;}
+  .card{flex:1;background:white;border-radius:12px;padding:20px;}
+  .card.pass{border:2px solid #86efac;}
+  .card.fail{border:2px solid #fca5a5;}
+  .chk{list-style:none;margin:14px 0;}
+  .chk li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;}
+  .chk li:last-child{border-bottom:none;}
+  .ci{font-size:18px;min-width:22px;}
+  .footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;padding:32px 20px;font-size:13px;}
+  .footer strong{color:var(--accent);}
+  @media(max-width:600px){.mr,.cards{flex-direction:column;}.cover{padding:40px 20px 34px;}.fv{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="container">
+    <div class="cover-badge">使用者操作說明書</div>
+    <h1>自由落體<em>速度</em>測試系統<br>操作說明書</h1>
+    <p class="cover-sub">本說明書說明如何正確操作本系統完成落體速度測試。</p>
+    <div class="cover-pills">
+      <div class="pill">📡 藍牙感測器</div>
+      <div class="pill">⚡ 自動判斷合格 / 不合格</div>
+      <div class="pill">🎯 自動補償建議</div>
+      <div class="pill">📐 計算原理說明</div>
+    </div>
+  </div>
+</div>
+<div class="divider"></div>
+
+<div class="toc">
+  <div class="container">
+    <div class="toc-title">📋 目錄</div>
+    <div class="toc-grid">
+      <a class="toc-a" href="#s1"><span class="toc-n">01</span>系統用途說明</a>
+      <a class="toc-a" href="#s2"><span class="toc-n">02</span>開機前準備</a>
+      <a class="toc-a" href="#s3"><span class="toc-n">03</span>介面各區塊說明</a>
+      <a class="toc-a" href="#s4"><span class="toc-n">04</span>高度參數設定</a>
+      <a class="toc-a" href="#s5"><span class="toc-n">05</span>計算原理說明</a>
+      <a class="toc-a" href="#s6"><span class="toc-n">06</span>連接感測器</a>
+      <a class="toc-a" href="#s7"><span class="toc-n">07</span>執行測試</a>
+      <a class="toc-a" href="#s8"><span class="toc-n">08</span>判讀測試結果</a>
+      <a class="toc-a" href="#s9"><span class="toc-n">09</span>速度不合格時怎麼辦</a>
+      <a class="toc-a" href="#s10"><span class="toc-n">10</span>數字鍵盤快速操作</a>
+      <a class="toc-a" href="#s11"><span class="toc-n">11</span>常見問題處理</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap"><div class="container">
+
+<!-- §1 -->
+<section class="sec" id="s1">
+  <div class="sec-hd"><span class="sec-num">01</span><h2 class="sec-ttl">系統用途說明</h2></div>
+  <p>本系統用於測試<strong>自由落體物體通過感測器時的速度</strong>，並自動判斷該速度是否符合設定目標。</p>
+  <div class="diagram">
+    <svg class="dsvg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="d1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#0f2040"/></marker></defs>
+      <rect x="276" y="10" width="10" height="260" rx="4" fill="#94a3b8"/>
+      <line x1="200" y1="32" x2="274" y2="32" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="110" y="28" fill="#92400e" font-family="sans-serif" font-size="13" font-weight="700">① 下落起點</text>
+      <text x="110" y="46" fill="#92400e" font-family="sans-serif" font-size="11">（設定下落高度）</text>
+      <circle cx="244" cy="32" r="16" fill="#0f2040" stroke="#f59e0b" stroke-width="2.5"/>
+      <text x="244" y="38" text-anchor="middle" fill="white" font-family="sans-serif" font-size="13">●</text>
+      <line x1="244" y1="50" x2="244" y2="168" stroke="#0f2040" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#d1)"/>
+      <text x="252" y="115" fill="#64748b" font-family="sans-serif" font-size="12">自由落下</text>
+      <line x1="150" y1="182" x2="274" y2="182" stroke="#3b82f6" stroke-width="2.5" stroke-dasharray="6,3"/>
+      <rect x="148" y="170" width="74" height="24" rx="5" fill="#3b82f6"/>
+      <text x="185" y="186" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="700">📡 感測器</text>
+      <line x1="80" y1="182" x2="146" y2="182" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="10" y="177" fill="#1d4ed8" font-family="sans-serif" font-size="13" font-weight="700">② 感測器</text>
+      <text x="10" y="193" fill="#1d4ed8" font-family="sans-serif" font-size="11">偵測通過速度</text>
+      <text x="310" y="192" fill="#f59e0b" font-family="sans-serif" font-size="28" font-weight="900">⚡</text>
+      <text x="346" y="180" fill="#166534" font-family="sans-serif" font-size="12" font-weight="700">自動記錄速度</text>
+      <text x="346" y="198" fill="#166534" font-family="sans-serif" font-size="12">並比對目標值</text>
+      <rect x="160" y="258" width="200" height="18" rx="3" fill="#92400e" opacity=".8"/>
+      <text x="155" y="292" fill="#92400e" font-family="sans-serif" font-size="11" font-weight="700">③ 板材（固定高度）</text>
+      <rect x="100" y="276" width="340" height="10" rx="2" fill="#94a3b8"/>
+    </svg>
+  </div>
+  <p><strong>測試流程很簡單：</strong>將物體從指定高度靜止放開，系統自動偵測物體通過感測器時的速度，並立刻顯示是否合格。</p>
+  <div class="box good"><span class="box-ico">✅</span><div>合格時畫面顯示綠色 <strong>[Pass] 速度合格</strong>，無需任何額外動作。</div></div>
+  <div class="box warn"><span class="box-ico">⚠️</span><div>不合格時畫面顯示紅色 <strong>[FAIL] 速度不合格</strong>，並自動告訴您需要把起始高度往上或往下調幾公分。</div></div>
+</section>
+
+<!-- §2 -->
+<section class="sec" id="s2">
+  <div class="sec-hd"><span class="sec-num">02</span><h2 class="sec-ttl">開機前準備</h2></div>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div class="sc"><h4>開啟感測器電源</h4><p>按下 GDX-VPG 感測器的電源鍵，藍牙指示燈開始<strong>閃爍</strong>即代表已開機並可連線。</p></div></div>
+    <div class="step"><div class="sn">2</div><div class="sc"><h4>確認電腦藍牙已開啟</h4><p>確認電腦的藍牙功能處於開啟狀態。</p></div></div>
+    <div class="step"><div class="sn">3</div><div class="sc"><h4>量測感測器固定高度</h4><p>用捲尺量測感測器中心距地面的高度（cm），記錄下來，稍後需要輸入系統。</p></div></div>
+    <div class="step"><div class="sn">4</div><div class="sc"><h4>量測板材高度</h4><p>量測放置物體的板材厚度（cm）。</p></div></div>
+    <div class="step"><div class="sn">5</div><div class="sc"><h4>啟動程式</h4><p>由系統管理員協助開啟程式，畫面出現「自由落體速度測試控制面板」即代表啟動成功。</p></div></div>
+  </div>
+  <div class="box warn"><span class="box-ico">⚠️</span><div><strong>注意：</strong>感測器一定要在程式開啟後才連線。</div></div>
+</section>
+
+<!-- §3 -->
+<section class="sec" id="s3">
+  <div class="sec-hd"><span class="sec-num">03</span><h2 class="sec-ttl">介面各區塊說明</h2></div>
+  <p>畫面共分為六個主要區塊，請對照下方示意圖了解各區塊用途：</p>
+  <div class="mock">
+    <div class="mt">自由落體速度測試控制面板</div>
+    <div class="mh">【鍵盤】Enter 切換輸入欄　【+】+1 cm　【−】−1 cm　【/】連接　【*】中斷</div>
+    <div class="mg" style="margin-bottom:10px;padding-top:20px;">
+      <div class="mgt">① 藍牙連線</div>
+      <span class="bn2 bc">[ 連接感測器 ]</span><span class="bn2 bd">[ 中斷連線 ]</span>
+      <span style="color:#6b7280;font-size:12px;margin-left:8px;">-- 未連接</span>
+    </div>
+    <div class="mr">
+      <div class="mg" style="padding-top:22px;">
+        <div class="mgt">② 設定參數</div>
+        <div style="margin-bottom:8px;"><div class="ml">設定下落高度 (cm)</div><input class="mi f" type="text" value="100" readonly></div>
+        <div style="margin-bottom:8px;"><div class="ml">板材高度 (cm)</div><input class="mi" type="text" value="8" readonly></div>
+        <div style="margin-bottom:8px;"><div class="ml">感測器固定高度 (cm)</div><input class="mi" type="text" value="60" readonly></div>
+        <div><div class="ml">目標速度 (m/s)</div><div class="mb">3.067 m/s</div></div>
+      </div>
+      <div class="mg" style="padding-top:22px;">
+        <div class="mgt">③ 分析結果</div>
+        <div class="badge bn" style="width:100%;margin-bottom:10px;padding:16px;font-size:17px;">等待測試…</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:13px;margin-top:6px;">
+          <span style="font-weight:700;">實測速度</span><span style="font-family:'JetBrains Mono',monospace;">—</span>
+          <span style="font-weight:700;">速度差</span><span style="font-family:'JetBrains Mono',monospace;">—</span>
+          <span style="font-weight:700;">誤差率</span><span style="font-family:'JetBrains Mono',monospace;">—</span>
+        </div>
+      </div>
+    </div>
+    <div class="mr">
+      <div class="mg" style="padding-top:22px;text-align:center;">
+        <div class="mgt">④ 即時數值</div>
+        <div style="font-size:40px;font-weight:900;color:#1d4ed8;background:#eff6ff;border-radius:8px;padding:12px;font-family:'JetBrains Mono',monospace;">— m/s</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:6px;">時間: —</div>
+        <div class="badge bp" style="width:100%;margin-top:8px;font-size:12px;padding:7px;">[就緒] 等待落體...</div>
+      </div>
+      <div class="mg" style="padding-top:22px;text-align:center;">
+        <div class="mgt">⑤ 補償建議</div>
+        <div class="badge bn" style="width:100%;min-height:70px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;">—</div>
+        <div style="font-size:13px;font-weight:700;">等效下落高度: —</div>
+      </div>
+    </div>
+    <div class="mg" style="padding-top:22px;margin-top:0;">
+      <div class="mgt">⑥ 系統記錄</div>
+      <div class="log">[09:15:38] [搜尋] 藍牙裝置中... (第 1/10 次)<br>[09:15:42] [OK] 已連接: GDX-VPG 071006W<br>[09:20:11] [峰值] 偵測到速度: 3.071 m/s</div>
+    </div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>編號</th><th>區塊名稱</th><th>使用者需要做什麼</th></tr></thead>
+    <tbody>
+      <tr><td>①</td><td>藍牙連線</td><td>點擊「連接感測器」按鈕，等待連線成功。</td></tr>
+      <tr><td>②</td><td>設定參數</td><td>輸入三個高度數值，系統自動顯示目標速度。</td></tr>
+      <tr><td>③</td><td>分析結果</td><td>測試後自動顯示 Pass / Fail 及速度數據，<strong>只需讀取</strong>。</td></tr>
+      <tr><td>④</td><td>即時數值</td><td>顯示感測器目前讀到的速度與冷卻狀態，<strong>只需觀看</strong>。</td></tr>
+      <tr><td>⑤</td><td>補償建議</td><td>不合格時顯示應調整的高度，<strong>依照指示調整後重新測試</strong>。</td></tr>
+      <tr><td>⑥</td><td>系統記錄</td><td>記錄所有事件，若有疑問可截圖給工程師查看。</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- §4 -->
+<section class="sec" id="s4">
+  <div class="sec-hd"><span class="sec-num">04</span><h2 class="sec-ttl">高度參數設定</h2></div>
+  <p>測試前需要輸入三個高度數值，三個數值都從<strong>地面量起</strong>，單位為公分（cm）。</p>
+  <div class="diagram">
+    <svg class="dsvg" viewBox="0 0 580 350" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- 朝下箭頭（marker-end，線段終點） -->
+        <marker id="e1" markerWidth="8" markerHeight="8" refX="4" refY="6" orient="auto">
+          <path d="M0,0 L8,0 L4,6 z" fill="#f59e0b"/>
+        </marker>
+        <!-- 朝上箭頭（marker-start，線段起點） -->
+        <marker id="e1r" markerWidth="8" markerHeight="8" refX="4" refY="0" orient="auto-start-reverse">
+          <path d="M0,6 L8,6 L4,0 z" fill="#f59e0b"/>
+        </marker>
+      
+        <marker id="e2" markerWidth="8" markerHeight="8" refX="4" refY="6" orient="auto">
+          <path d="M0,0 L8,0 L4,6 z" fill="#3b82f6"/>
+        </marker>
+        <marker id="e2r" markerWidth="8" markerHeight="8" refX="4" refY="0" orient="auto-start-reverse">
+          <path d="M0,6 L8,6 L4,0 z" fill="#3b82f6"/>
+        </marker>
+      
+        <marker id="e3" markerWidth="8" markerHeight="8" refX="4" refY="6" orient="auto">
+          <path d="M0,0 L8,0 L4,6 z" fill="#92400e"/>
+        </marker>
+        <marker id="e3r" markerWidth="8" markerHeight="8" refX="4" refY="0" orient="auto-start-reverse">
+          <path d="M0,6 L8,6 L4,0 z" fill="#92400e"/>
+        </marker>
+      </defs>
+      <rect x="100" y="308" width="280" height="14" rx="3" fill="#94a3b8"/>
+      <text x="240" y="336" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="12">地面</text>
+      <rect x="130" y="284" width="220" height="24" rx="3" fill="#92400e" opacity=".8"/>
+      <line x1="100" y1="183" x2="380" y2="183" stroke="#3b82f6" stroke-width="2.5" stroke-dasharray="7,4"/>
+      <rect x="310" y="171" width="70" height="24" rx="4" fill="#3b82f6"/>
+      <text x="345" y="187" text-anchor="middle" fill="white" font-family="sans-serif" font-size="10" font-weight="700">📡 感測器</text>
+      <circle cx="230" cy="55" r="16" fill="#0f2040" stroke="#f59e0b" stroke-width="2.5"/>
+      <text x="230" y="61" text-anchor="middle" fill="white" font-family="sans-serif" font-size="13">●</text>
+      <line x1="78" y1="308" x2="78" y2="75" stroke="#f59e0b" stroke-width="2" marker-end="url(#e1)" marker-start="url(#e1r)"/>
+      <text x="14" y="185" fill="#92400e" font-family="sans-serif" font-size="11" font-weight="700" transform="rotate(-90,14,185)">① 下落高度 (dh)</text>
+      <line x1="58" y1="308" x2="58" y2="185" stroke="#3b82f6" stroke-width="2" marker-end="url(#e2)" marker-start="url(#e2r)"/>
+      <text x="26" y="258" fill="#1d4ed8" font-family="sans-serif" font-size="10" font-weight="700" transform="rotate(-90,26,258)">② 感測器高度 (sh)</text>
+      <line x1="460" y1="305" x2="460" y2="290" stroke="#92400e" stroke-width="2" marker-end="url(#e3)" marker-start="url(#e3r)"/>
+      <text x="472" y="300" fill="#92400e" font-family="sans-serif" font-size="11" font-weight="700">③ 板材高度 (bh)</text>
+      <text x="400" y="55" fill="#0f2040" font-family="sans-serif" font-size="12" font-weight="700">➤ 用捲尺</text>
+      <text x="400" y="72" fill="#0f2040" font-family="sans-serif" font-size="12">   從地面量起</text>
+    </svg>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>#</th><th>欄位名稱</th><th>怎麼量</th><th>預設值</th></tr></thead>
+    <tbody>
+      <tr><td>①</td><td><strong>設定下落高度</strong></td><td>物體起始位置（底部）距地面的高度。</td><td>100 cm</td></tr>
+      <tr><td>②</td><td><strong>感測器固定高度</strong></td><td>感測器偵測面距地面的高度。位置固定後通常不需再改。</td><td>60 cm</td></tr>
+      <tr><td>③</td><td><strong>板材高度</strong></td><td>物體放置的板材厚度。板材不換的話通常固定不變。</td><td>8 cm</td></tr>
+    </tbody>
+  </table>
+  <div class="box info"><span class="box-ico">💡</span><div>輸入數值後，系統會<strong>自動計算並顯示目標速度</strong>（m/s）。不需要按任何確認鍵。</div></div>
+  <div class="box danger"><span class="box-ico">🛑</span><div><strong>注意：</strong>下落高度必須比感測器高度高，否則系統會顯示紅色警告且無法計算。</div></div>
+</section>
+
+<!-- §5 計算原理 -->
+<section class="sec" id="s5">
+  <div class="sec-hd"><span class="sec-num">05</span><h2 class="sec-ttl">計算原理說明</h2></div>
+  <p>本節說明系統如何根據您輸入的高度計算出「目標速度」，以及如何判斷合格與否。了解原理有助於在現場判斷數值是否合理。</p>
+
+  <h3>第一步：計算有效落差</h3>
+  <p>物體並非從地面開始落，感測器也不在地面，因此系統需要先計算<strong>物體實際落到感測器的距離</strong>，稱為「有效落差」。</p>
+  <div class="diagram">
+    <svg class="dsvg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="g1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#22c55e"/></marker>
+        <marker id="g1r" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto-start-reverse"><path d="M0,3 L8,0 L8,6 z" fill="#22c55e"/></marker>
+        <marker id="g2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#3b82f6"/></marker>
+        <marker id="g2r" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto-start-reverse"><path d="M0,3 L8,0 L8,6 z" fill="#3b82f6"/></marker>
+      </defs>
+      <rect x="80" y="238" width="340" height="12" rx="3" fill="#94a3b8"/>
+      <text x="250" y="260" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="11">地面</text>
+      <rect x="110" y="216" width="260" height="22" rx="3" fill="#92400e" opacity=".7"/>
+      <text x="240" y="231" text-anchor="middle" fill="white" font-family="sans-serif" font-size="10" font-weight="700">板材 (bh = 8 cm)</text>
+      <line x1="80" y1="140" x2="420" y2="140" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,4"/>
+      <rect x="355" y="128" width="65" height="24" rx="4" fill="#3b82f6"/>
+      <text x="387" y="144" text-anchor="middle" fill="white" font-family="sans-serif" font-size="10" font-weight="700">感測器</text>
+      <circle cx="230" cy="38" r="14" fill="#0f2040" stroke="#f59e0b" stroke-width="2"/>
+      <text x="230" y="44" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11">●</text>
+      <line x1="300" y1="40" x2="300" y2="138" stroke="#22c55e" stroke-width="2.5" marker-end="url(#g1)" marker-start="url(#g1r)"/>
+      <rect x="308" y="72" width="110" height="28" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="363" y="89" text-anchor="middle" fill="#166534" font-family="sans-serif" font-size="12" font-weight="700">有效落差</text>
+      <line x1="60" y1="216" x2="60" y2="142" stroke="#3b82f6" stroke-width="2" marker-end="url(#g2)" marker-start="url(#g2r)"/>
+      <text x="10" y="185" fill="#1d4ed8" font-family="sans-serif" font-size="10" font-weight="700" transform="rotate(-90,10,185)">感測器相對高度</text>
+      <rect x="80" y="4" width="310" height="28" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5"/>
+      <text x="235" y="22" text-anchor="middle" fill="#3730a3" font-family="sans-serif" font-size="11" font-weight="700">有效落差 = 下落高度 − (感測器高度 − 板材高度)</text>
+    </svg>
+  </div>
+  <div class="fw">
+    <div class="ft">📐 有效落差計算公式</div>
+    <div class="fm">有效落差 = dh − (sh − bh)</div>
+    <div class="fv">
+      <span class="fvk">dh</span><span class="fvd">下落高度（您在系統輸入的值，cm）</span>
+      <span class="fvk">sh</span><span class="fvd">感測器固定高度（您在系統輸入的值，cm）</span>
+      <span class="fvk">bh</span><span class="fvd">板材高度（您在系統輸入的值，cm）</span>
+    </div>
+    <div class="fe">📌 <strong>範例計算（預設值）：</strong><br>
+    下落高度 dh = 100 cm，感測器高度 sh = 60 cm，板材高度 bh = 8 cm<br>
+    有效落差 = 100 − (60 − 8) = 100 − 52 = <strong>48 cm = 0.48 m</strong></div>
+  </div>
+
+  <h3>第二步：由有效落差計算目標速度</h3>
+  <p>物體落得越遠，受重力加速的時間越長，速度就越大。系統使用以下公式計算物體到達感測器時的理論速度：</p>
+  <div class="fw">
+    <div class="ft">📐 目標速度計算公式（自由落體公式）</div>
+    <div class="fm">目標速度 = √(2 × 9.8 × 有效落差)</div>
+    <div class="fv">
+      <span class="fvk">9.8</span><span class="fvd">重力加速度（固定值，地球表面重力，m/s²）</span>
+      <span class="fvk">有效落差</span><span class="fvd">上一步計算出的距離（單位須換算為公尺，÷100）</span>
+    </div>
+    <div class="fe">📌 <strong>範例計算（接續上方）：</strong><br>
+    有效落差 = 0.48 m<br>
+    目標速度 = √(2 × 9.8 × 0.48) = √9.408 ≈ <strong>3.067 m/s</strong><br><br>
+    ✔ 這就是畫面上「目標速度」欄位顯示的數字。</div>
+  </div>
+  <div class="box info"><span class="box-ico">💡</span><div><strong>為什麼下落高度越高，速度越快？</strong><br>因為物體落得越遠，受重力加速的時間越長，速度就越大。您只需要記住：<strong>有效落差增加，目標速度也跟著增加。</strong></div></div>
+
+  <h3>第三步：比對實測速度，判斷合格與否</h3>
+  <p>感測器量到實際速度後，系統計算與目標速度的誤差，在 <strong>±2%</strong> 以內即為合格：</p>
+  <div class="fw">
+    <div class="ft">📐 誤差率計算公式</div>
+    <div class="fm">誤差率 = |實測速度 − 目標速度| ÷ 目標速度 × 100%</div>
+    <div class="fe">📌 <strong>合格範例：</strong>目標 3.067 m/s，實測 3.071 m/s<br>
+    誤差率 = |3.071 − 3.067| ÷ 3.067 × 100% ≈ <strong>0.13%</strong>　→　<span style="color:#166534;font-weight:700;">✅ Pass 合格</span><br><br>
+    📌 <strong>不合格範例：</strong>目標 3.067 m/s，實測 2.810 m/s<br>
+    誤差率 = |2.810 − 3.067| ÷ 3.067 × 100% ≈ <strong>8.38%</strong>　→　<span style="color:#991b1b;font-weight:700;">❌ FAIL 不合格</span></div>
+  </div>
+
+  <h3>第四步：速度不合格時的補償計算</h3>
+  <p>如果實測速度不合格，系統會反推出「若要達到實測速度，理論上需要從多高落下」，再與設定高度相比，得出要調整幾公分。</p>
+  <div class="fw" style="background:#fff7ed;border-color:#fed7aa;">
+    <div class="ft" style="color:#92400e;">📐 補償量計算（速度不足範例）</div>
+    <div class="fm" style="color:#92400e;font-size:16px;">等效下落高度 = 實測速度² ÷ (2 × 9.8) + 感測器相對高度</div>
+    <div class="fe" style="background:#fef3c7;">
+    📌 <strong>範例：</strong>目標 3.067 m/s，實測 2.800 m/s（速度不足）<br>
+    等效有效落差 = 2.800² ÷ (2 × 9.8) = 7.84 ÷ 19.6 ≈ 40 cm<br>
+    等效下落高度 = 40 + 52 = 92 cm<br>
+    補償量 = 100 − 92 = <strong>8 cm</strong><br><br>
+    → 系統顯示：<span style="background:#fef3c7;color:#92400e;font-weight:700;padding:2px 6px;border-radius:4px;">速度不足，請往上調 8 cm</span></div>
+  </div>
+  <div class="box good"><span class="box-ico">✅</span><div>以上計算都由系統<strong>自動完成</strong>，您在現場只需依照畫面指示操作即可。了解原理有助於確認數字是否合理。</div></div>
+</section>
+
+<!-- §6 -->
+<section class="sec" id="s6">
+  <div class="sec-hd"><span class="sec-num">06</span><h2 class="sec-ttl">連接感測器</h2></div>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div class="sc"><h4>確認感測器指示燈閃爍</h4><p>感測器藍牙指示燈閃爍，代表已開機可連線。若燈不亮請先長按電源鍵開機。</p></div></div>
+    <div class="step"><div class="sn">2</div><div class="sc"><h4>點擊「連接感測器」</h4><p>或按數字鍵盤的 <kbd>/</kbd> 鍵。畫面狀態欄會開始顯示「搜尋中…」。</p></div></div>
+    <div class="step"><div class="sn">3</div><div class="sc"><h4>等待連線完成</h4><p>系統會自動搜尋並連線，通常約 10～20 秒。請耐心等待，不要重複點擊。</p></div></div>
+    <div class="step"><div class="sn">4</div><div class="sc"><h4>確認連線成功</h4><p>狀態欄出現 <strong>[OK] 已連接: GDX-VPG…</strong> 即代表連線成功，可以開始測試。</p></div></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>畫面顯示</th><th>代表什麼</th><th>需要做什麼</th></tr></thead>
+    <tbody>
+      <tr><td>搜尋中… (第 N/10 次)</td><td>正在尋找感測器</td><td>等待即可</td></tr>
+      <tr><td style="color:#166534;font-weight:700;">[OK] 已連接</td><td>連線成功</td><td>可以開始測試 ✅</td></tr>
+      <tr><td>[失敗] N 秒後重試</td><td>這次失敗，系統自動重試</td><td>等待即可</td></tr>
+      <tr><td style="color:#991b1b;font-weight:700;">[錯誤] 已重試 10 次</td><td>無法連線</td><td>參考第 11 節故障處理</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- §7 -->
+<section class="sec" id="s7">
+  <div class="sec-hd"><span class="sec-num">07</span><h2 class="sec-ttl">執行測試</h2></div>
+  <div class="box good"><span class="box-ico">✅</span><div>連線成功後，即時數值區塊會顯示 <strong>[就緒] 等待落體...</strong>，代表系統準備好偵測了。</div></div>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div class="sc"><h4>確認高度參數已設定正確</h4><p>再次確認三個高度數值與實際量測相符，並確認目標速度已顯示。</p></div></div>
+    <div class="step"><div class="sn">2</div><div class="sc"><h4>將物體放置在起始位置</h4><p>將測試物體靜止放置在設定高度的位置。</p></div></div>
+    <div class="step"><div class="sn">3</div><div class="sc"><h4>靜止釋放物體</h4><p>手拉開固定桿，讓其<strong>自然落下</strong>，不要施加任何向上或向下的力。</p></div></div>
+    <div class="step"><div class="sn">4</div><div class="sc"><h4>等待系統自動判斷</h4><p>物體通過感測器後，系統會在 1 秒內自動顯示結果，<strong>不需要按任何按鈕</strong>。</p></div></div>
+    <div class="step"><div class="sn">5</div><div class="sc"><h4>等待冷卻完成後再測下一次</h4><p>系統進入約 5 秒的冷卻期（畫面顯示「冷卻中…剩餘 X 秒」）。冷卻完成後才能進行下一次測試。</p></div></div>
+  </div>
+  <div class="box warn"><span class="box-ico">⚠️</span><div><strong>冷卻期間請勿釋放物體。</strong>冷卻是為了防止誤讀物體彈跳後的速度。請等畫面出現「[就緒] 等待落體...」後再進行下一次測試。</div></div>
+</section>
+
+<!-- §8 -->
+<section class="sec" id="s8">
+  <div class="sec-hd"><span class="sec-num">08</span><h2 class="sec-ttl">判讀測試結果</h2></div>
+  <p>測試完成後，「分析結果」區塊會顯示判決：</p>
+  <div class="cards">
+    <div class="card pass">
+      <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:10px;">✅ 合格</div>
+      <div class="badge bp" style="width:100%;margin-bottom:12px;font-size:17px;padding:14px;">[Pass] 速度合格</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:13px;margin-bottom:12px;">
+        <span>實測速度</span><strong style="font-family:'JetBrains Mono',monospace;">3.071 m/s</strong>
+        <span>速度差</span><strong style="font-family:'JetBrains Mono',monospace;color:#166534;">+0.004 m/s</strong>
+        <span>誤差率</span><strong style="font-family:'JetBrains Mono',monospace;color:#166534;">0.13 %</strong>
+      </div>
+      <div class="badge bp" style="width:100%;">[OK] 無需補償</div>
+    </div>
+    <div class="card fail">
+      <div style="font-size:12px;font-weight:700;color:#991b1b;margin-bottom:10px;">❌ 不合格</div>
+      <div class="badge bf" style="width:100%;margin-bottom:12px;font-size:17px;padding:14px;">[FAIL] 速度不合格</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:13px;margin-bottom:12px;">
+        <span>實測速度</span><strong style="font-family:'JetBrains Mono',monospace;">2.810 m/s</strong>
+        <span>速度差</span><strong style="font-family:'JetBrains Mono',monospace;color:#991b1b;">−0.257 m/s</strong>
+        <span>誤差率</span><strong style="font-family:'JetBrains Mono',monospace;color:#991b1b;">8.38 %</strong>
+      </div>
+      <div class="badge bw" style="width:100%;">速度不足<br>請往上調 6.3 cm</div>
+    </div>
+  </div>
+  <div class="box info"><span class="box-ico">📌</span><div>系統預設誤差容許範圍為 <strong>±2%</strong>。只要誤差率在 2% 以內，就會判為合格（Pass）。</div></div>
+</section>
+
+<!-- §9 -->
+<section class="sec" id="s9">
+  <div class="sec-hd"><span class="sec-num">09</span><h2 class="sec-ttl">速度不合格時怎麼辦</h2></div>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div class="sc"><h4>看「補償建議」區塊的指示</h4><p>畫面會清楚告訴您要往上或往下調幾公分，例如「速度不足，請往上調 6.3 cm」。</p></div></div>
+    <div class="step"><div class="sn">2</div><div class="sc"><h4>調整物體的起始高度</h4><p>依照指示，將物體的起始位置移高或移低對應的公分數。</p></div></div>
+    <div class="step"><div class="sn">3</div><div class="sc"><h4>更新畫面上的「設定下落高度」數值</h4><p>在欄位輸入新的下落高度，或使用鍵盤 <kbd>+</kbd> / <kbd>−</kbd> 微調。畫面上的目標速度也會自動更新。</p></div></div>
+    <div class="step"><div class="sn">4</div><div class="sc"><h4>等待冷卻完成，重新測試</h4><p>等畫面顯示「[就緒] 等待落體...」後，重新釋放物體進行測試。</p></div></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>畫面顯示</th><th>意思</th><th>怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge bw" style="font-size:12px;">速度不足<br>請往上調 X cm</span></td><td>速度太慢</td><td>起始高度往上移 X cm，欄位輸入新高度</td></tr>
+      <tr><td><span class="badge bf" style="font-size:12px;">速度過高<br>請往下調 X cm</span></td><td>速度太快</td><td>起始高度往下移 X cm，欄位輸入新高度</td></tr>
+      <tr><td><span class="badge bp" style="font-size:12px;">[OK] 無需補償</span></td><td>速度符合目標</td><td>不需要調整 ✅</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- §10 -->
+<section class="sec" id="s10">
+  <div class="sec-hd"><span class="sec-num">10</span><h2 class="sec-ttl">數字鍵盤快速操作</h2></div>
+  <p>操作台上的<strong>數字鍵盤</strong>（右側數字區）可以直接控制系統，不需要用滑鼠。</p>
+  <div class="diagram">
+    <svg class="dsvg" viewBox="0 0 580 240" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="20" width="220" height="200" rx="12" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+      <rect x="34" y="34" width="46" height="40" rx="6" fill="#334155"/><text x="57" y="60" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="14" font-weight="700">Num</text>
+      <rect x="86" y="34" width="46" height="40" rx="6" fill="#1e3a5f" stroke="#f59e0b" stroke-width="1.5"/><text x="109" y="60" text-anchor="middle" fill="white" font-family="monospace" font-size="22" font-weight="700">/</text>
+      <rect x="138" y="34" width="46" height="40" rx="6" fill="#1e3a5f" stroke="#f59e0b" stroke-width="1.5"/><text x="161" y="60" text-anchor="middle" fill="white" font-family="monospace" font-size="22" font-weight="700">*</text>
+      <rect x="34" y="82" width="46" height="40" rx="6" fill="#334155"/><text x="57" y="108" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="14">7</text>
+      <rect x="86" y="82" width="46" height="40" rx="6" fill="#334155"/><text x="109" y="108" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="14">8</text>
+      <rect x="138" y="82" width="46" height="40" rx="6" fill="#334155"/><text x="161" y="108" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="14">9</text>
+      <rect x="34" y="130" width="46" height="40" rx="6" fill="#334155"/><text x="57" y="156" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="14">4</text>
+      <rect x="86" y="130" width="46" height="40" rx="6" fill="#334155"/><text x="109" y="156" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="14">5</text>
+      <rect x="138" y="130" width="46" height="40" rx="6" fill="#334155"/><text x="161" y="156" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="14">6</text>
+      <rect x="34" y="178" width="46" height="40" rx="6" fill="#1e3a5f" stroke="#f59e0b" stroke-width="1.5"/><text x="57" y="204" text-anchor="middle" fill="white" font-family="monospace" font-size="22" font-weight="700">−</text>
+      <rect x="86" y="178" width="46" height="40" rx="6" fill="#1e3a5f" stroke="#f59e0b" stroke-width="1.5"/><text x="109" y="204" text-anchor="middle" fill="white" font-family="monospace" font-size="22" font-weight="700">+</text>
+      <rect x="138" y="178" width="94" height="40" rx="6" fill="#166534" stroke="#86efac" stroke-width="1.5"/><text x="185" y="204" text-anchor="middle" fill="white" font-family="sans-serif" font-size="12" font-weight="700">Enter</text>
+      <line x1="109" y1="74" x2="280" y2="50" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="285" y="46" fill="#92400e" font-family="sans-serif" font-size="13" font-weight="700">/ → 連接感測器</text>
+      <line x1="161" y1="74" x2="280" y2="95" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="285" y="100" fill="#92400e" font-family="sans-serif" font-size="13" font-weight="700">* → 中斷連線</text>
+      <line x1="57" y1="178" x2="280" y2="145" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="285" y="141" fill="#1d4ed8" font-family="sans-serif" font-size="13" font-weight="700">− → 下落高度 −1 cm</text>
+      <line x1="109" y1="178" x2="280" y2="185" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="285" y="185" fill="#1d4ed8" font-family="sans-serif" font-size="13" font-weight="700">+ → 下落高度 +1 cm</text>
+      <line x1="185" y1="218" x2="280" y2="228" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="285" y="228" fill="#166534" font-family="sans-serif" font-size="13" font-weight="700">Enter → 切換輸入欄位</text>
+    </svg>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>按鍵</th><th>動作</th><th>使用時機</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>/</kbd></td><td>連接感測器</td><td>每次開始測試前</td></tr>
+      <tr><td><kbd>*</kbd></td><td>中斷連線</td><td>結束測試或重新連線時</td></tr>
+      <tr><td><kbd>+</kbd></td><td>當前欄位 +1 cm</td><td>微調下落高度，每按一次增加 1 cm</td></tr>
+      <tr><td><kbd>−</kbd></td><td>當前欄位 −1 cm</td><td>微調下落高度，每按一次減少 1 cm</td></tr>
+      <tr><td><kbd>Enter</kbd></td><td>切換輸入欄位</td><td>在下落高度、板材高度、感測器高度三欄之間循環切換</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- §11 -->
+<section class="sec" id="s11">
+  <div class="sec-hd"><span class="sec-num">11</span><h2 class="sec-ttl">常見問題處理</h2></div>
+  <h3>連線相關問題</h3>
+  <table class="tbl">
+    <thead><tr><th>問題現象</th><th>怎麼處理</th></tr></thead>
+    <tbody>
+      <tr><td>一直顯示「搜尋中…」</td><td>① 確認感測器是否開機（指示燈閃爍）<br>② 將電腦斷電重新上電</td></tr>
+      <tr><td>顯示「已重試 10 次，仍無法連線」</td><td>① 關閉感測器再重新開機<br>② 點擊「 * 中斷連線」，等 10 秒後再連<br>③ 若仍無法解決，請聯絡工程師</td></tr>
+      <tr><td>連線後感測器數值停止更新</td><td>點擊「中斷連線」後重新連接</td></tr>
+    </tbody>
+  </table>
+  <h3>測試相關問題</h3>
+  <table class="tbl">
+    <thead><tr><th>問題現象</th><th>怎麼處理</th></tr></thead>
+    <tbody>
+      <tr><td>物體落下後畫面沒有反應</td><td>① 確認感測器已連線（狀態欄顯示 [OK]）<br>② 確認桿子確實通過感測器偵測面<br>③ 確認下落高度高於感測器高度</td></tr>
+      <tr><td>目標速度欄出現紅色警告</td><td>下落高度設定低於或等於感測器高度，請調高下落高度</td></tr>
+      <tr><td>測試結果誤差很大，一直 FAIL</td><td>① 請重新用捲尺量測三個高度，確認輸入值與實際相符<br>② 請上油並再次確認</td></tr>
+      <tr><td>「冷卻中」狀態持續5秒</td><td>正常現象，程式有 5 秒冷卻時間，目的是忽略回彈造成的重複峰值，避免錯判。</td></tr>
+    </tbody>
+  </table>
+  <div class="box danger"><span class="box-ico">📞</span><div><strong>以下情況請立即聯絡工程師：</strong><br>• 程式無法啟動或出現錯誤訊息<br>• 感測器完全無法連線超過 10 分鐘<br>• 測試結果數值異常（如顯示負數或極大值）</div></div>
+  
+  </ul>
+</section>
+
+</div></div>
+
+<div class="footer">
+  <strong>自由落體速度測試系統</strong> — 使用者操作說明書<br>
+  如有操作疑問，請聯絡工程師
+</div>
+</body>
+</html>
